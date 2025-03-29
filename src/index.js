@@ -10,6 +10,11 @@
 
 // import { background } from '../assets/background.svg';
 
+const logoSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <circle cx="50" cy="50" r="48" fill="#00ADD8" stroke="white" stroke-width="4"/>
+  <text x="50%" y="55%" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="white" text-anchor="middle" alignment-baseline="middle">Go</text>
+</svg>`
+
 const htmlResponse= (slug = '', import_url = '', repo_url='') => {
 	let importMeta = '';
 	// 转为全部大写
@@ -32,6 +37,7 @@ const htmlResponse= (slug = '', import_url = '', repo_url='') => {
 	<head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width">
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 	<title>Go Modules Redirect</title>${importMeta}
 	<head>
 	<body>
@@ -77,6 +83,7 @@ const htmlResponse= (slug = '', import_url = '', repo_url='') => {
 			flex-direction: column;
 			justify-content: center;
 			padding: 16px;
+			transform: translateY(-120px);
 		}
 
 		h1 {
@@ -471,8 +478,9 @@ export default {
 				case "":
 				case "/":
 					return htmlResponse();
-				case "/favicon.ico":
-					return new Response("Page Not found ", { status: 404 });
+				case '/favicon.ico':
+				case '/favicon.svg':
+					return new Response(logoSvg, { status: 200, headers: { "Content-Type": "image/svg+xml" } });
 				default:
 					break;
 			}

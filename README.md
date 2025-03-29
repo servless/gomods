@@ -2,6 +2,8 @@
 
 Go 模块导入路径重定向
 
+**Example:** https://go.dsig.cn/shortener
+
 ## 初始化
 
 1. 拉取本仓库代码
@@ -11,7 +13,7 @@ Go 模块导入路径重定向
 npm install
 ```
 
-2. 初始化数据库
+3. 初始化数据库
 
 ```bash
 # 创建数据库
@@ -44,11 +46,21 @@ wrangler d1 execute gomods --remote --file=./schema.sql
 ```bash
 # 查询数据表(本地测试)
 wrangler d1 execute gomods --local --command="SELECT * FROM GoMods"
+# 查询数据表(远程服务)
+wrangler d1 execute gomods --remote  --command="SELECT * FROM go_mods" 
+```
+
+```bash
+# 备份数据库(本地测试)
+wrangler d1 export gomods --local --file=./gomods.sql
+# 备份数据库(远程服务)
+wrangler d1 export gomods --remote --file=./gomods.sql
+```
 ```
 
 ## 接口
 
-- **接口验证，通过 `API-KEY` 进行验证。建议通过 `Dashboard` 后台设置，支持 Pages 和 Workers 方式**
+- **接口验证，通过 `API-KEY` 进行验证。建议通过 `Dashboard` 后台设置，支持 Pages 和 Workers 方式。**  
 `API_KEY` 可在 `wrangler.jsonc` 中设置。请求头中添加 `X-API-KEY` 字段即可。
 
 ### 添加模块
