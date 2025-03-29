@@ -11,11 +11,11 @@
 		"enabled": true
 	},
 
-    "env": {
-        "local": {
-            "vars": {
-                "API_KEY": "API_TOKEN"
-            },
+	"env": {
+    	"local": {
+			"vars": {
+				"API_KEY": "API_TOKEN"
+			},
 			"d1_databases": [
 				{
 					"binding": "DB",
@@ -23,8 +23,8 @@
 					"database_id": "4791dbb8-a06b-4980-9992-f51c51c47f70"
 				}
 			]
-        }
-    },
+		}
+	},
 
 	"d1_databases": [
 		{

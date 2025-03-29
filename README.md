@@ -56,12 +56,12 @@ wrangler d1 export gomods --local --file=./gomods.sql
 # 备份数据库(远程服务)
 wrangler d1 export gomods --remote --file=./gomods.sql
 ```
-```
 
 ## 接口
 
 - **接口验证，通过 `API-KEY` 进行验证。建议通过 `Dashboard` 后台设置，支持 Pages 和 Workers 方式。**  
-`API_KEY` 可在 `wrangler.jsonc` 中设置。请求头中添加 `X-API-KEY` 字段即可。
+> **`API_KEY`** 可在 `wrangler.jsonc` 中设置。   
+`API` 请求头中添加 **`X-API-KEY`** 字段即可。
 
 ### 添加模块
 
@@ -165,7 +165,7 @@ wrangler d1 export gomods --remote --file=./gomods.sql
 
 ## 部署教程 - Workers
 
-**可通过 Dashboard 设置 `API_TOKEN` 环境变量，以及 D1 数据库的绑定**
+**可通过 Dashboard 设置 `API_KEY` 环境变量，以及 D1 数据库的绑定**
 
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/servless/gomods&paid=true)
 
@@ -225,7 +225,7 @@ wrangler d1 export gomods --remote --file=./gomods.sql
 
 ## 部署教程 - Pages
 
-**需要在 Dashboard 设置 `API_TOKEN` 环境变量，以及 D1 数据库的绑定**
+**需要在 Dashboard 设置 `API_KEY` 环境变量，以及 D1 数据库的绑定**
 
 ### 直接连接到 `GitHub` 后,一键部署
 
