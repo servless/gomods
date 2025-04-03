@@ -1,5 +1,6 @@
 # https://marketplace.visualstudio.com/items?itemName=humao.rest-client
 
+@scheme = http
 @hostname = localhost
 @port = 8787
 @host = {{hostname}}:{{port}}
@@ -10,7 +11,7 @@
 
 ### 添加数据
 
-POST http://{{host}}/api/mods
+POST {{scheme}}://{{host}}/api/mods
 Content-Type: {{contentType}}
 
 {
@@ -22,7 +23,7 @@ Content-Type: {{contentType}}
 
 ### 添加数据 （KEY）
 
-POST http://{{host}}/api/mods
+POST {{scheme}}://{{host}}/api/mods
 Content-Type: {{contentType}}
 X-API-KEY: {{apiKey}}
 
@@ -35,7 +36,7 @@ X-API-KEY: {{apiKey}}
 
 ### 添加数据 （KEY + 随机）
 
-POST http://{{host}}/api/mods
+POST {{scheme}}://{{host}}/api/mods
 Content-Type: {{contentType}}
 X-API-KEY: {{apiKey}}
 
@@ -48,24 +49,24 @@ X-API-KEY: {{apiKey}}
 
 ### 删除数据
 
-DELETE http://{{host}}/api/mods/{{code}}
+DELETE {{scheme}}://{{host}}/api/mods/{{code}}
 Content-Type: {{contentType}}
 
 ### 删除数据 （KEY）
 
-DELETE http://{{host}}/api/mods/{{code}}
+DELETE {{scheme}}://{{host}}/api/mods/{{code}}
 Content-Type: {{contentType}}
 X-API-KEY: {{apiKey}}
 
 ### 删除数据 （KEY + 随机）
 
-DELETE http://{{host}}/api/mods/{{code}}{{$randomInt 5 100}}
+DELETE {{scheme}}://{{host}}/api/mods/{{code}}{{$randomInt 5 100}}
 Content-Type: {{contentType}}
 X-API-KEY: {{apiKey}}
 
 ### 修改数据
 
-PUT http://{{host}}/api/mods/{{code}}
+PUT {{scheme}}://{{host}}/api/mods/{{code}}
 Content-Type: {{contentType}}
 
 {
@@ -76,7 +77,7 @@ Content-Type: {{contentType}}
 
 ### 修改数据 （KEY）
 
-PUT http://{{host}}/api/mods/{{code}}
+PUT {{scheme}}://{{host}}/api/mods/{{code}}
 Content-Type: {{contentType}}
 X-API-KEY: {{apiKey}}
 
@@ -88,7 +89,7 @@ X-API-KEY: {{apiKey}}
 
 ### 修改数据 （KEY + 随机）
 
-PUT http://{{host}}/api/mods/{{code}}{{$randomInt 5 100}}
+PUT {{scheme}}://{{host}}/api/mods/{{code}}{{$randomInt 5 100}}
 Content-Type: {{contentType}}
 X-API-KEY: {{apiKey}}
 
@@ -100,23 +101,23 @@ X-API-KEY: {{apiKey}}
 
 ### 获取数据
 
-GET http://{{host}}/api/mods/{{code}}
+GET {{scheme}}://{{host}}/api/mods/{{code}}
 Content-Type: {{contentType}}
 
 ### 获取数据 （KEY）
 
-GET http://{{host}}/api/mods/{{code}}
+GET {{scheme}}://{{host}}/api/mods/{{code}}
 Content-Type: {{contentType}}
 X-API-KEY: {{apiKey}}
 
 ### 获取数据 （KEY + 随机）
 
-GET http://{{host}}/api/mods/{{code}}{{$randomInt 5 100}}
+GET {{scheme}}://{{host}}/api/mods/{{code}}{{$randomInt 5 100}}
 Content-Type: {{contentType}}
 X-API-KEY: {{apiKey}}
 
 ### 获取数据列表
 
-GET http://{{host}}/api/mods
+GET {{scheme}}://{{host}}/api/mods
 Content-Type: {{contentType}}
 X-API-KEY: {{apiKey}}

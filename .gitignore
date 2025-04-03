@@ -168,6 +168,8 @@ dist
 
 # wrangler project
 
+package-lock.json
 .dev.vars
 .wrangler/
 .vscode/
+.http
