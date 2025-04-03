@@ -70,6 +70,7 @@ wrangler d1 export gomods --remote --file=./gomods.sql
 ```json
 {
   "slug": "shortener",
+  "branch": "main",
   "import_url": "go.dsig.cn/shortener",
   "repo_url": "https://github.com/idevsig/shortener"
 }
@@ -77,10 +78,11 @@ wrangler d1 export gomods --remote --file=./gomods.sql
 - 返回值：
 ```json
 {
-    "id": 1,
-    "slug": "shortener",
-    "import_url": "go.dsig.cn/shortener",
-    "repo_url": "https://github.com/idevsig/shortener"
+  "id": 1,
+  "slug": "shortener",
+  "branch": "main",
+  "import_url": "go.dsig.cn/shortener",
+  "repo_url": "https://github.com/idevsig/shortener"
 }
 ```
 
@@ -90,7 +92,7 @@ wrangler d1 export gomods --remote --file=./gomods.sql
 - 返回值：
 ```json
 {
-    "message": "Data deleted"
+  "message": "Data deleted"
 }
 ```
 
@@ -100,6 +102,7 @@ wrangler d1 export gomods --remote --file=./gomods.sql
 - 请求参数：
 ```json
 {
+  "branch": "main",
   "import_url": "go.dsig.cn/shortener",
   "repo_url": "https://github.com/idevsig/shortener"
 }
@@ -107,8 +110,9 @@ wrangler d1 export gomods --remote --file=./gomods.sql
 - 返回值：
 ```json
 {
-    "import_url": "go.dsig.cn/shortener",
-    "repo_url": "https://github.com/idevsig/shortener"
+  "branch": "main",
+  "import_url": "go.dsig.cn/shortener",
+  "repo_url": "https://github.com/idevsig/shortener"
 }
 ```
 
@@ -118,10 +122,11 @@ wrangler d1 export gomods --remote --file=./gomods.sql
 - 返回值：
 ```json
 {
-    "id": 1,
-    "slug": "shortener",
-    "import_url": "go.dsig.cn/shortener",
-    "repo_url": "https://github.com/idevsig/shortener"
+  "id": 1,
+  "slug": "shortener",
+  "branch": "main",
+  "import_url": "go.dsig.cn/shortener",
+  "repo_url": "https://github.com/idevsig/shortener"
 }
 ```
 
@@ -131,33 +136,35 @@ wrangler d1 export gomods --remote --file=./gomods.sql
 - 请求参数：
 ```json
 {
-    "page": 1,
-    "limit": 10
+  "page": 1,
+  "limit": 10
 }
 ```
 - 返回值：
 ```json
 {
-    "data": [
-        {
-            "id": 1,
-            "slug": "shortener",
-            "import_url": "go.dsig.cn/shortener",
-            "repo_url": "https://github.com/idevsig/shortener"
-        },
-        {
-            "id": 2,
-            "slug": "shortener2",
-            "import_url": "go.dsig.cn/shortener2",
-            "repo_url": "https://github.com/idevsig/shortener2"
-        }
-    ],
-    "meta": {
-        "page": 1,
-        "limit": 10,
-        "total": 2,
-        "total_pages": 1
+  "data": [
+    {
+      "id": 1,
+      "slug": "shortener",
+      "branch": "main",
+      "import_url": "go.dsig.cn/shortener",
+      "repo_url": "https://github.com/idevsig/shortener"
+    },
+    {
+      "id": 2,
+      "slug": "shortener2",
+      "branch": "main",
+      "import_url": "go.dsig.cn/shortener2",
+      "repo_url": "https://github.com/idevsig/shortener2"
     }
+  ],
+  "meta": {
+    "page": 1,
+    "limit": 10,
+    "total": 2,
+    "total_pages": 1
+  }
 }
 ```
 

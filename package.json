@@ -1,6 +1,6 @@
 {
 	"name": "gomods",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"private": true,
 	"scripts": {
 		"deploy": "wrangler deploy",
@@ -11,8 +11,8 @@
 		"test": "vitest"
 	},
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "0.8.8",
-		"vitest": "~3.0.7",
-		"wrangler": "^4.6.0"
+		"@cloudflare/vitest-pool-workers": "0.8.9",
+		"vitest": "3.1.1",
+		"wrangler": "4.7.0"
 	}
 }

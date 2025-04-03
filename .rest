@@ -1,0 +1,122 @@
+# https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+
+@hostname = localhost
+@port = 8787
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+
+@code = shortener
+@apiKey = API_TOKEN
+
+### 添加数据
+
+POST http://{{host}}/api/mods
+Content-Type: {{contentType}}
+
+{
+  "slug": "{{code}}",
+  "branch": "main",
+  "import_url": "go.dsig.cn/{{code}}",
+  "repo_url": "https://github.com/idevsig/{{code}}"
+}
+
+### 添加数据 （KEY）
+
+POST http://{{host}}/api/mods
+Content-Type: {{contentType}}
+X-API-KEY: {{apiKey}}
+
+{
+  "slug": "{{code}}",
+  "branch": "main",
+  "import_url": "go.dsig.cn/{{code}}",
+  "repo_url": "https://github.com/idevsig/{{code}}"
+}
+
+### 添加数据 （KEY + 随机）
+
+POST http://{{host}}/api/mods
+Content-Type: {{contentType}}
+X-API-KEY: {{apiKey}}
+
+{
+  "slug": "{{code}}{{$randomInt 5 100}}",
+  "branch": "main",
+  "import_url": "go.dsig.cn/{{code}}{{$randomInt 5 100}}",
+  "repo_url": "https://github.com/idevsig/{{code}}{{$randomInt 5 100}}"
+}
+
+### 删除数据
+
+DELETE http://{{host}}/api/mods/{{code}}
+Content-Type: {{contentType}}
+
+### 删除数据 （KEY）
+
+DELETE http://{{host}}/api/mods/{{code}}
+Content-Type: {{contentType}}
+X-API-KEY: {{apiKey}}
+
+### 删除数据 （KEY + 随机）
+
+DELETE http://{{host}}/api/mods/{{code}}{{$randomInt 5 100}}
+Content-Type: {{contentType}}
+X-API-KEY: {{apiKey}}
+
+### 修改数据
+
+PUT http://{{host}}/api/mods/{{code}}
+Content-Type: {{contentType}}
+
+{
+  "branch": "main",
+  "import_url": "go.dsig.cn/{{code}}888",
+  "repo_url": "https://github.com/idevsig/{{code}}888"
+}
+
+### 修改数据 （KEY）
+
+PUT http://{{host}}/api/mods/{{code}}
+Content-Type: {{contentType}}
+X-API-KEY: {{apiKey}}
+
+{
+  "branch": "main",
+  "import_url": "go.dsig.cn/{{code}}999",
+  "repo_url": "https://github.com/idevsig/{{code}}999"
+}
+
+### 修改数据 （KEY + 随机）
+
+PUT http://{{host}}/api/mods/{{code}}{{$randomInt 5 100}}
+Content-Type: {{contentType}}
+X-API-KEY: {{apiKey}}
+
+{
+  "branch": "main",
+  "import_url": "go.dsig.cn/{{code}}{{$randomInt 5 100}}",
+  "repo_url": "https://github.com/idevsig/{{code}}{{$randomInt 5 100}}"
+}
+
+### 获取数据
+
+GET http://{{host}}/api/mods/{{code}}
+Content-Type: {{contentType}}
+
+### 获取数据 （KEY）
+
+GET http://{{host}}/api/mods/{{code}}
+Content-Type: {{contentType}}
+X-API-KEY: {{apiKey}}
+
+### 获取数据 （KEY + 随机）
+
+GET http://{{host}}/api/mods/{{code}}{{$randomInt 5 100}}
+Content-Type: {{contentType}}
+X-API-KEY: {{apiKey}}
+
+### 获取数据列表
+
+GET http://{{host}}/api/mods
+Content-Type: {{contentType}}
+X-API-KEY: {{apiKey}}

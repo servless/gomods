@@ -15,15 +15,19 @@ const logoSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" w
   <text x="50%" y="55%" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="white" text-anchor="middle" alignment-baseline="middle">Go</text>
 </svg>`
 
-const htmlResponse= (slug = '', import_url = '', repo_url='') => {
+const htmlResponse= (params = {}) => {
+	const { slug, branch, import_url, repo_url } = params;
 	let importMeta = '';
 	// 转为全部大写
-	let upperSlug = slug.toUpperCase();
 	let slugTitle = ''
 	let slugBanner = '';
 	if (import_url && repo_url) {
+		let upperSlug = slug.toUpperCase();
+		const branchName = branch || 'main';
+
 		importMeta = `
-	<meta name="go-import" content="${import_url} git ${repo_url}">`
+	<meta name="go-import" content="${import_url} git ${repo_url}">
+	<meta name="go-source" content="${import_url} ${repo_url} ${repo_url}/tree/${branchName}{/dir} ${repo_url}blob/${branchName}{/dir}/{file}#L{line}">`
 
 		slugTitle = `
 				<h1>${upperSlug}</h1>`
@@ -49,7 +53,7 @@ const htmlResponse= (slug = '', import_url = '', repo_url='') => {
 					Go module import path redirection.
 				</h1>${slugBanner}
 				<section id="links">
-					<a class="button" href="https://github.com/idevsig/gomods">Star this repo</a>
+					<a class="button" href="https://github.com/servless/gomods" rel="noopener noreferrer">View on GitHub</a></a>
 				</section>
 			</section>
 		</main>
@@ -240,17 +244,19 @@ const htmlResponse= (slug = '', import_url = '', repo_url='') => {
 
 // 定义一个异步函数 addData，用于向数据库中添加数据
 const addData = async (db, data) => {
-	const { slug, import_url, repo_url } = data;
+	const { slug, branch, import_url, repo_url } = data;
 
 	let statusCode = 400;
 	let message = "Missing required fields";
 	let resp = {};
 
+	const branchName = branch || 'main';
+
 	if (slug && import_url && repo_url) {
 		try {
 			const results = await db.prepare(
-				"INSERT INTO go_mods (slug, import_url, repo_url) VALUES (?, ?, ?)")
-				.bind(slug, import_url, repo_url)
+				"INSERT INTO go_mods (slug, branch, import_url, repo_url) VALUES (?, ?, ?, ?)")
+				.bind(slug, branchName, import_url, repo_url)
 				.run();
 
 			// console.log(results);
@@ -329,7 +335,7 @@ const delData = async  (db, slug) => {
 }
 
 const updateData = async (db, slug, data) => {
-	const { import_url, repo_url } = data;
+	const { branch, import_url, repo_url } = data;
 
 	let statusCode = 400;
 	let message = "Missing required fields";
@@ -337,14 +343,23 @@ const updateData = async (db, slug, data) => {
 
 	if (slug && import_url && repo_url) {
 		try {
-			const results = await db.prepare(
-				"UPDATE go_mods SET import_url = ?, repo_url = ? WHERE slug = ?")
-				.bind(import_url, repo_url, slug)
-				.run();
+			let results;
+
+			if (branch) {
+				results = await db.prepare(
+					"UPDATE go_mods SET branch = ?, import_url = ?, repo_url = ? WHERE slug = ?")
+					.bind(branch, import_url, repo_url, slug)
+					.run();
+			} else {
+				results = await db.prepare(
+					"UPDATE go_mods SET import_url = ?, repo_url = ? WHERE slug = ?")
+					.bind(import_url, repo_url, slug)
+					.run();
+			}
 
 			// console.log(results);
 
-			if (results.changes === 0) {
+			if (results.meta.changes === 0) {
 				statusCode = 404;
 				message = "Data not found";
 			} else {
@@ -507,6 +522,9 @@ export default {
 
 			if (validKey) {
 				const apiKey = request.headers.get("X-API-KEY");
+				console.log(apiKey);
+				console.log(validKey);
+
 				if (!apiKey || apiKey !== validKey) {
 					return new Response(JSON.stringify({
 						error: "Invalid API KEY"
@@ -563,8 +581,7 @@ export default {
 		}
 
 		const slug = url.pathname.slice(1);
-		const data = await getData(env.DB, slug);
-		const { import_url, repo_url } = data.data;
-		return htmlResponse(slug, import_url, repo_url);
+		const params = await getData(env.DB, slug);
+		return htmlResponse(params.data);
 	},
 };
