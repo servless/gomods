@@ -27,7 +27,7 @@ const htmlResponse= (params = {}) => {
 
 		importMeta = `
 	<meta name="go-import" content="${import_url} git ${repo_url}">
-	<meta name="go-source" content="${import_url} ${repo_url} ${repo_url}/tree/${branchName}{/dir} ${repo_url}blob/${branchName}{/dir}/{file}#L{line}">`
+	<meta name="go-source" content="${import_url} ${repo_url} ${repo_url}/tree/${branchName}{/dir} ${repo_url}/blob/${branchName}{/dir}/{file}#L{line}">`
 
 		slugTitle = `
 				<h1>${upperSlug}</h1>`
