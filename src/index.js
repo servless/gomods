@@ -8,231 +8,149 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
-// import { background } from '../assets/background.svg';
-
 const logoSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
   <circle cx="50" cy="50" r="48" fill="#00ADD8" stroke="white" stroke-width="4"/>
   <text x="50%" y="55%" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="white" text-anchor="middle" alignment-baseline="middle">Go</text>
 </svg>`
 
-const htmlResponse= (params = {}) => {
+const htmlResponse = (params = {}) => {
 	const { slug, branch, import_url, repo_url } = params;
+	// const slug = 'Shortener'
+	// const branch = 'main';
+	// const import_url = 'go.dsig.cn/shortener';
+	// const repo_url = 'https://framagit.org/idev/shortener-server';
+
+	const defaultTitle = 'Go Modules Redirect';
 	let importMeta = '';
-	// 转为全部大写
-	let slugTitle = ''
-	let slugBanner = '';
+	let uppperTitle = ''; // 标题
+
 	if (import_url && repo_url) {
-		let upperSlug = slug.toUpperCase();
+		uppperTitle = slug.toUpperCase();
 		const branchName = branch || 'main';
 
 		importMeta = `
 	<meta name="go-import" content="${import_url} git ${repo_url}">
 	<meta name="go-source" content="${import_url} ${repo_url} ${repo_url}/tree/${branchName}{/dir} ${repo_url}/blob/${branchName}{/dir}/{file}#L{line}">`
-
-		slugTitle = `
-				<h1>${upperSlug}</h1>`
-		slugBanner = `
-				<p>This is the URL of the import path for <a href="${repo_url}">${upperSlug}</a>.</p>`
 	}
 
 	const htmlContent = `
-	<doctype html>
-	<html lang="en">
-	<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width">
-	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-	<title>Go Modules Redirect</title>${importMeta}
-	<head>
-	<body>
-	<div id="container">
-		<!--<img id="background" src= alt="" fetchpriority="high" />-->
-		<main>
-			<section id="hero">${slugTitle}
-				<h1>
-					Go module import path redirection.
-				</h1>${slugBanner}
-				<section id="links">
-					<a class="button" href="https://github.com/servless/gomods" rel="noopener noreferrer">View on GitHub</a></a>
-				</section>
-			</section>
-		</main>
-	</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Go Modules Redirect</title>${importMeta}
+    <script src="//cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Inter', 'Roboto', 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+        }
 
-	<style>
-		#background {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			z-index: -1;
-			filter: blur(100px);
-		}
+        #hero {
+            transform: translateY(-40px);
+            transition: transform 0.5s ease;
+        }
 
-		#container {
-			font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
-			height: 100%;
-		}
+        .gradient-text {
+            background: linear-gradient(14deg, #d83333 0%, #f041ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-		main {
-			height: 100%;
-			display: flex;
-			justify-content: center;
-		}
+        footer {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
 
-		#hero {
-			display: flex;
-			align-items: start;
-			flex-direction: column;
-			justify-content: center;
-			padding: 16px;
-			transform: translateY(-120px);
-		}
+        @media (max-width: 768px) {
+            #hero {
+                transform: none;
+                padding-top: 10%;
+            }
+        }
 
-		h1 {
-			font-size: 2.5rem;
-			margin-top: 0.25em;
-		}
+        @media (max-height: 368px) {
+            #news {
+                display: none;
+            }
+        }
 
-		#links {
-			display: flex;
-			gap: 16px;
-		}
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div id="container" class="flex flex-col min-h-screen">
+        <header class="flex justify-end p-4 sm:p-6">
+            <select id="language-switcher" class="px-3 py-1.5 rounded-lg bg-gray-100 text-gray-800 focus:outline-none transition-colors duration-200 hover:bg-gray-200">
+                <option value="en">English</option>
+                <option value="zh">中文</option>
+            </select>
+        </header>
+        <main class="flex-1 flex items-center justify-center">
+            <section id="hero" class="flex flex-col max-w-2xl px-4 sm:px-6">
+                <h1 id="title" class="text-4xl sm:text-5xl font-bold gradient-text mb-3 animate-fade-in"></h1>
+                <h2 id="subtitle" class="text-2xl sm:text-3xl font-semibold text-gray-800 mb-5 animate-fade-in">Go module import path redirection</h2>
+                <p id="description" class="text-gray-600 text-lg mb-6 animate-fade-in"></p>
+            </section>
+        </main>
+        <footer class="py-4 px-4 sm:px-6 text-center text-gray-600">
+            <p id="copyright" class="text-sm">
+                © 2025 ${uppperTitle ? uppperTitle : defaultTitle}. Powered by 
+                <a id="github-link" href="https://github.com/servless/gomods" class="font-medium text-gray-900 hover:text-red-600 transition-colors" rel="noopener noreferrer">Go Modules Redirect</a>.
+            </p>
+        </footer>
+    </div>
 
-		#links a {
-			display: flex;
-			align-items: center;
-			padding: 10px 12px;
-			color: #111827;
-			text-decoration: none;
-			transition: color 0.2s;
-		}
+    <script>
+        const translations = {
+            en: {
+                subtitle: "Go module import path redirection",
+                description: "This is the import path URL for the <a href='${repo_url}' class='font-bold text-gray-900 hover:text-red-600 transition-colors'>${uppperTitle}</a> project.",
+            },
+            zh: {
+                subtitle: "Go 模块导入路径重定向",
+                description: "这是 <a href='${repo_url}' class='font-bold text-gray-900 hover:text-red-600 transition-colors'>${uppperTitle}</a> 项目的导入路径 URL。",
+            }
+        };
 
-		#links a:hover {
-			color: rgb(78, 80, 86);
-		}
+        function getSystemLanguage() {
+            const lang = navigator.language || navigator.languages[0];
+            return lang.startsWith('zh') ? 'zh' : 'en';
+        }
 
-		#links a svg {
-			height: 1em;
-			margin-left: 8px;
-		}
+        function updateContent(lang) {
+			document.getElementById('title').innerHTML = '${uppperTitle ? uppperTitle : defaultTitle}';
+            document.getElementById('subtitle').innerHTML = translations[lang].subtitle;
+            document.getElementById('description').innerHTML = '${uppperTitle}' ? translations[lang].description : '';
+            document.getElementById('language-switcher').value = lang;
+            document.documentElement.lang = lang;
+        }
 
-		#links a.button {
-			color: white;
-			background: linear-gradient(83.21deg, #3245ff 0%, #bc52ee 100%);
-			box-shadow:
-				inset 0 0 0 1px rgba(255, 255, 255, 0.12),
-				inset 0 -2px 0 rgba(0, 0, 0, 0.24);
-			border-radius: 10px;
-		}
+        // Set language based on system preference on page load
+        window.addEventListener('load', () => {
+            const systemLang = getSystemLanguage();
+            updateContent(systemLang);
+        });
 
-		#links a.button:hover {
-			color: rgb(230, 230, 230);
-			box-shadow: none;
-		}
+        // Handle manual language switch
+        document.getElementById('language-switcher').addEventListener('change', (event) => {
+            updateContent(event.target.value);
+        });
 
-		pre {
-			font-family:
-				ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono',
-				monospace;
-			font-weight: normal;
-			background: linear-gradient(14deg, #d83333 0%, #f041ff 100%);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
-			margin: 0;
-		}
-
-		h2 {
-			margin: 0 0 1em;
-			font-weight: normal;
-			color: #111827;
-			font-size: 20px;
-		}
-
-		p {
-			color: #4b5563;
-			font-size: 16px;
-			line-height: 24px;
-			letter-spacing: -0.006em;
-			margin: 0;
-		}
-
-		#hero p {
-			font-weight: 300;
-			color: #353841;
-			margin: 0 0 20px;
-
-			a {
-				font-weight: bold;
-				color: #111827;
-				transition: color 0.2s;
-				text-decoration: none;
-			}
-
-			a:link {
-				color: #111827;
-				text-decoration: none;
-			}
-
-			a:hover {
-				color: rgb(226, 14, 32);
-				text-decoration: none;
-			}
-
-		}
-
-		code {
-			display: inline-block;
-			background:
-				linear-gradient(66.77deg, #f3cddd 0%, #f5cee7 100%) padding-box,
-				linear-gradient(155deg, #d83333 0%, #f041ff 18%, #f5cee7 45%) border-box;
-			border-radius: 8px;
-			border: 1px solid transparent;
-			padding: 6px 8px;
-		}
-
-		@media screen and (max-height: 368px) {
-			#news {
-				display: none;
-			}
-		}
-
-		@media screen and (max-width: 768px) {
-			#container {
-				display: flex;
-				flex-direction: column;
-			}
-
-			#hero {
-				display: block;
-				padding-top: 10%;
-			}
-
-			#links {
-				flex-wrap: wrap;
-			}
-
-			#links a.button {
-				padding: 14px 18px;
-			}
-
-			#news {
-				right: 16px;
-				left: 16px;
-				bottom: 2.5rem;
-				max-width: 100%;
-			}
-
-			h1 {
-				line-height: 1.5;
-			}
-		}
-	</style>
-	<body>
-	</html>
-	`
+        // Apply fade-in animation
+        document.querySelectorAll('.animate-fade-in').forEach((el, index) => {
+            el.style.animation = "fadeIn 0.5s ease forwards " + index * 0.2 + "s";
+        });
+    </script>
+</body>
+</html>	`
 
 	return new Response(htmlContent, {
 		status: 200,
