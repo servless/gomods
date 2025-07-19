@@ -33,6 +33,8 @@ const htmlResponse = (params = {}) => {
 	<meta name="go-source" content="${import_url} ${repo_url} ${repo_url}/tree/${branchName}{/dir} ${repo_url}/blob/${branchName}{/dir}/{file}#L{line}">`
 	}
 
+	const currentTitle = uppperTitle || defaultTitle;
+
 	const htmlContent = `
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +42,7 @@ const htmlResponse = (params = {}) => {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Go Modules Redirect</title>${importMeta}
+    <title>${currentTitle}</title>${importMeta}
     <script src="//cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -102,7 +104,7 @@ const htmlResponse = (params = {}) => {
         </main>
         <footer class="py-4 px-4 sm:px-6 text-center text-gray-600">
             <p id="copyright" class="text-sm">
-                © 2025 ${uppperTitle ? uppperTitle : defaultTitle}. Powered by 
+                © 2025 ${currentTitle}. Powered by 
                 <a id="github-link" href="https://github.com/servless/gomods" class="font-medium text-gray-900 hover:text-red-600 transition-colors" rel="noopener noreferrer">Go Modules Redirect</a>.
             </p>
         </footer>
@@ -126,7 +128,7 @@ const htmlResponse = (params = {}) => {
         }
 
         function updateContent(lang) {
-			document.getElementById('title').innerHTML = '${uppperTitle ? uppperTitle : defaultTitle}';
+			document.getElementById('title').innerHTML = '${currentTitle}';
             document.getElementById('subtitle').innerHTML = translations[lang].subtitle;
             document.getElementById('description').innerHTML = '${uppperTitle}' ? translations[lang].description : '';
             document.getElementById('language-switcher').value = lang;
