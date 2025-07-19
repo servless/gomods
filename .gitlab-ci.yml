@@ -1,0 +1,22 @@
+# CloudFlare Workers 部署
+
+variables:
+  CLOUDFLARE_API_TOKEN: $CLOUDFLARE_API_TOKEN
+
+image: alpine:latest
+
+stages:
+  - deploy
+
+before_script: |
+  apk update
+  apk add --no-cache npm
+  npm install -g wrangler@latest
+  npm install
+
+deploy:
+  stage: deploy
+  script: wrangler deploy
+
+  only:
+    - main
