@@ -16,7 +16,7 @@ before_script: |
 
 deploy:
   stage: deploy
-  script: wrangler deploy
+  script: wrangler pages deploy pages --project-name gomods
 
   only:
     - main
