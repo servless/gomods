@@ -2,7 +2,7 @@
 
 Go 模块导入路径重定向
 
-**Example:** https://go.dsig.cn/shortener
+**演示站:** https://go.bdev.cn/shortener
 
 ## 初始化
 
