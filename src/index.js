@@ -500,7 +500,8 @@ export default {
 			return new Response('Method Not Allowed', { status: 405 });
 		}
 
-		const slug = url.pathname.slice(1);
+		const path = url.pathname.slice(1);
+		const slug = path ? path.split('/')[0] : '';		
 		const params = await getData(env.DB, slug);
 		return htmlResponse(params.data);
 	},
